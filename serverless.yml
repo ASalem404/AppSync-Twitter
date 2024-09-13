@@ -1,0 +1,17 @@
+service: appsync-backend
+
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  hello:
+    handler: handler.hello
+
+plugins:
+  - serverless-appsync-plugin
+custom:
+  appsync:
+    - ${file(serverless.appsync-api.yml)}

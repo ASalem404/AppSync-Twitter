@@ -1,0 +1,16 @@
+{
+  "name": "appsync-backend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "sls": "sls"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "serverless": "^4.3.2",
+    "serverless-appsync-plugin": "^2.8.0"
+  }
+}
