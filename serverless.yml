@@ -9,6 +9,13 @@ provider:
   runtime: nodejs20.x
   stage: dev
 
+  # Enabling AWS Node.js connection reuse improves performance by reducing latency and resource consumption,
+  # as it allows multiple requests to use the same TCP connection, rather than opening new ones each time.
+  # This leads to cost savings, better scalability, and helps prevent socket exhaustion in high-concurrency environments,
+  # making the application more efficient overall.
+
+  AWS_CONNECTION_REUSE_ENABLED: "1"
+
 plugins:
   - serverless-appsync-plugin
 
