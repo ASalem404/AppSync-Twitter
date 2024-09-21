@@ -52,7 +52,7 @@ input ProfileInput {
   birthDate: String
 }
 
-type IProfile {
+interface IProfile {
   id: ID!
   name: String!
   screenName: String!
@@ -108,16 +108,10 @@ type OtherProfile implements IProfile {
   followedBy: Boolean!
 }
 
-type ITweet {
+interface ITweet {
   id: ID!
   profile: IProfile!
-  text: String!
   createdAt: AWSDateTime!
-  likes: Int!
-  retweets: Int!
-  replies: Int!
-  liked: Boolean!
-  retweeted: Boolean!
 }
 
 type Tweet implements ITweet {
