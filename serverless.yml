@@ -74,6 +74,20 @@ resources:
             Name: name
             Required: false
             Mutable: true
+
+        # Invoke the Lambda function after the user is signing up
+        LambdaConfig:
+          PostConfirmation: !GetAtt ConfirmUserSignupLambdaFunction.Arn
+
+    # Add Permission for Cognito to invoke the Lambda function
+    UserPoolInvokeConfirmSignupFunctionPermission:
+      Type: AWS::Lambda::Permission
+      Properties:
+        Action: lambda:InvokeFunction
+        FunctionName: !GetAtt ConfirmUserSignupLambdaFunction.Arn
+        Principal: cognito-idp.amazonaws.com
+        SourceArn: !GetAtt CognitoUserPool.Arn
+
     WebUserPoolClient:
       Type: AWS::Cognito::UserPoolClient
       Properties:
