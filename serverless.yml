@@ -1,3 +1,4 @@
+org: ahmed404
 service: appsync-backend
 
 frameworkVersion: "2"
@@ -5,19 +6,17 @@ frameworkVersion: "2"
 provider:
   name: aws
   region: us-east-1
-  runtime: nodejs12.x
-
-functions:
-  hello:
-    handler: handler.hello
+  runtime: nodejs20.x
+  stage: dev
 
 plugins:
   - serverless-appsync-plugin
+
 custom:
-  appsync:
+  appSync:
     - ${file(serverless.appsync-api.yml)}
 
-resourses:
+resources:
   Resources:
     CognitoUserPool:
       Type: AWS::Cognito::UserPool
@@ -31,14 +30,25 @@ resourses:
             RequireNumbers: false
             RequireUppercase: false
             RequireSymbols: false
-          UsernameAttributes:
-            - email
-          Schema:
-            - AttributeDataType: String
-              Name: name
-              Required: false
-              Mutable: true
+        UsernameAttributes:
+          - email
+        Schema:
+          - AttributeDataType: String
+            Name: name
+            Required: false
+            Mutable: true
+    WebUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: web
+        UserPoolId:
+          Ref: CognitoUserPool
+        ExplicitAuthFlows:
+          - ALLOW_USER_PASSWORD_AUTH
+          - ALLOW_REFRESH_TOKEN_AUTH
+          - ALLOW_USER_SRP_AUTH
+        PreventUserExistenceErrors: ENABLED
+
   Outputs:
     CognitoUserPoolId:
-      Value:
-        Ref: CognitoUserPool
+      Value: !Ref CognitoUserPool
