@@ -20,11 +20,29 @@ plugins:
   - serverless-appsync-plugin
 
 custom:
+  stage: ${opt:stage, self:provider.stage}
   appSync:
     - ${file(serverless.appsync-api.yml)}
 
 resources:
   Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UsersTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        Tag:
+          - Key: Name
+            Value: UsersTable
+          - Key: Environment
+            Value: ${self:custom.stage}
+
     CognitoUserPool:
       Type: AWS::Cognito::UserPool
       Properties:
