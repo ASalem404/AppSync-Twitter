@@ -19,8 +19,10 @@ provider:
 plugins:
   - serverless-appsync-plugin
   - serverless-iam-roles-per-function
+  - serverless-export-env
 
 custom:
+  region: ${opt:region, self:provider.region}
   stage: ${opt:stage, self:provider.stage}
   appSync:
     - ${file(serverless.appsync-api.yml)}
@@ -101,5 +103,7 @@ resources:
         PreventUserExistenceErrors: ENABLED
 
   Outputs:
+    AwsREGION:
+      Value: ${self:custom.region}
     CognitoUserPoolId:
       Value: !Ref CognitoUserPool
