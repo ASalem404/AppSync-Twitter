@@ -46,6 +46,9 @@ const a_user_signs_up = async (password, name, email) => {
 
   console.log(`${email} . has signud up as ${username}`);
 
+  // Cognito send a verification code to the email to confirm
+  // and we need this code to continue and add the user to the ddb
+  // to skip this step, we confirm the user manually as follow.
   await cognito
     .adminConfirmSignUp({
       Username: username,
