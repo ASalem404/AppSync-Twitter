@@ -56,12 +56,12 @@ interface IProfile {
   id: ID!
   name: String!
   screenName: String!
-  imageUrl: AWSURL!
-  backgroundImageUrl: AWSURL!
-  bio: String!
-  location: String!
-  website: String!
-  birthDate: String!
+  imageUrl: AWSURL
+  backgroundImageUrl: AWSURL
+  bio: String
+  location: String
+  website: String
+  birthDate: String
   createdAt: AWSDateTime!
   tweets: TweetsPage!
   followersCount: Int!
@@ -74,12 +74,12 @@ type MyProfile implements IProfile {
   id: ID!
   name: String!
   screenName: String!
-  imageUrl: AWSURL!
-  backgroundImageUrl: AWSURL!
-  bio: String!
-  location: String!
-  website: String!
-  birthDate: String!
+  imageUrl: AWSURL
+  backgroundImageUrl: AWSURL
+  bio: String
+  location: String
+  website: String
+  birthDate: String
   createdAt: AWSDateTime!
   tweets: TweetsPage!
   followersCount: Int!
@@ -92,12 +92,12 @@ type OtherProfile implements IProfile {
   id: ID!
   name: String!
   screenName: String!
-  imageUrl: AWSURL!
-  backgroundImageUrl: AWSURL!
-  bio: String!
-  location: String!
-  website: String!
-  birthDate: String!
+  imageUrl: AWSURL
+  backgroundImageUrl: AWSURL
+  bio: String
+  location: String
+  website: String
+  birthDate: String
   createdAt: AWSDateTime!
   tweets: TweetsPage!
   followersCount: Int!
@@ -110,13 +110,13 @@ type OtherProfile implements IProfile {
 
 interface ITweet {
   id: ID!
-  profile: IProfile!
+  profile: IProfile
   createdAt: AWSDateTime!
 }
 
 type Tweet implements ITweet {
   id: ID!
-  profile: IProfile!
+  profile: IProfile
   text: String!
   createdAt: AWSDateTime!
   likes: Int!
@@ -128,7 +128,7 @@ type Tweet implements ITweet {
 
 type Replie implements ITweet {
   id: ID!
-  profile: IProfile!
+  profile: IProfile
   text: String!
   createdAt: AWSDateTime!
   inReplyToTweet: Tweet!
@@ -142,7 +142,7 @@ type Replie implements ITweet {
 
 type Retweet implements ITweet {
   id: ID!
-  profile: IProfile!
+  profile: IProfile
   createdAt: AWSDateTime!
   retweetOf: ITweet!
 }
