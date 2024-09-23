@@ -6,3 +6,23 @@ userPoolConfig:
   defaultAction: ALLOW
   userPoolId:
     Ref: CognitoUserPool
+
+mappingTemplatesLocation: mapping-templates
+mappingTemplates:
+  - type: Query
+    field: getMyProfile
+    dataSource: usersTable
+
+    # The request and response mapping templates are required when the name the name of the response and request mapping templates
+    # are different from the default name. The default name is <typeName>.<fieldName>.request.vtl and <typeName>.<fieldName>.response.vtl
+
+    # request: Query.getMyProfile.request.vtl
+    # response: Query.getMyProfile.response.vtl
+
+dataSources:
+  - type: NONE
+    name: none
+  - type: AMAZON_DYNAMODB
+    name: usersTable
+    config:
+      tableName: !Ref UsersTable
