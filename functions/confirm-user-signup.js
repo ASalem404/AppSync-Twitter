@@ -3,10 +3,10 @@ const Chance = require("chance");
 
 const DynamoDBClient = new DynamoDB.DocumentClient();
 const chance = new Chance();
-const { USER_TABLE } = process.env;
+const { USERS_TABLE } = process.env;
 
 module.exports.handler = async (event) => {
-  if (event.triggerSource === "PostConfirmation_ConfirmSignup") {
+  if (event.triggerSource == "PostConfirmation_ConfirmSignUp") {
     const name = event.request.userAttributes["name"];
     const suffix = chance.string({
       length: 8,
@@ -25,8 +25,9 @@ module.exports.handler = async (event) => {
       tweetsCount: 0,
       likesCount: 0,
     };
+
     await DynamoDBClient.put({
-      TableName: USER_TABLE,
+      TableName: USERS_TABLE,
       Item: user,
       ConditionExpression: "attribute_not_exists(id)",
     }).promise();
