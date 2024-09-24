@@ -1,6 +1,6 @@
 require("dotenv").config();
 const AWS = require("aws-sdk");
-const GraphQL = require("../lib/graphQL");
+const { GraphQL } = require("../lib/graphql");
 
 const REGION = process.env.AWS_REGION;
 const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
