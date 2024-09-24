@@ -1,9 +1,11 @@
 require("dotenv").config();
 const AWS = require("aws-sdk");
+const GraphQL = require("../lib/graphQL");
 
 const REGION = process.env.AWS_REGION;
 const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
 const COGNITO_CLIENT_ID = process.env.COGNITO_USER_POOL_CLIENT_ID;
+const APPSYNC_API_URL = process.env.APPSYNC_API_URL;
 
 const handler = require("../../functions/confirm-user-signup").handler;
 const invoke_confirmSignup = async (username, name, email) => {
@@ -63,7 +65,43 @@ const a_user_signs_up = async (password, name, email) => {
   };
 };
 
+const a_user_calls_getMyProfile = async (user) => {
+  const getMyProfile = `query MyQuery {
+  getMyProfile {
+    id
+    likesCount
+    bio
+    backgroundImageUrl
+    birthDate
+    createdAt
+    followersCount
+    imageUrl
+    location
+    name
+    screenName
+    tweetsCount
+    website
+    followingCount
+  }
+}
+`;
+
+  const data = await GraphQL(
+    APPSYNC_API_URL,
+    getMyProfile,
+    {},
+    user.accessToken
+  );
+
+  const profile = data.getMyProfile;
+
+  console.log(`${profile.username} - fetched.`);
+
+  return profile;
+};
+
 module.exports = {
   invoke_confirmSignup,
   a_user_signs_up,
+  a_user_calls_getMyProfile,
 };
