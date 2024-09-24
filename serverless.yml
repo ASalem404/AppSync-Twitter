@@ -20,12 +20,19 @@ plugins:
   - serverless-appsync-plugin
   - serverless-iam-roles-per-function
   - serverless-export-env
+  - serverless-manifest-plugin
 
 custom:
   region: ${opt:region, self:provider.region}
   stage: ${opt:stage, self:provider.stage}
   appSync:
     - ${file(serverless.appsync-api.yml)}
+
+  manifest:
+    postProcess: ./processManifest.js
+    disablePostDeployGeneration: true
+    disableOutputs: true
+    silent: true
 
 functions:
   ConfirmUserSignup:
