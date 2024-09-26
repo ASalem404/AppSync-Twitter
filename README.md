@@ -1,6 +1,6 @@
 # Full-Stack Serverless Twitter Clone
 
-This project demonstrates how to build a **scalable and performant full-stack serverless application** using modern technologies like **AWS AppSync, AWS Lambda, Amazon DynamoDB, and Vue.js**. We will create a Twitter clone from scratch to explore how these technologies can be combined to deliver highly performant, cost-efficient, and scalable applications.
+This project demonstrates how to build a **scalable and performant full-stack serverless application** using modern technologies like **AWS AppSync, AWS Lambda, Amazon Cognito, Amazon DynamoDB, and Vue.js**. We will create a Twitter clone from scratch to explore how these technologies can be combined to deliver highly performant, cost-efficient, and scalable applications.
 
 ## Table of Contents
 
