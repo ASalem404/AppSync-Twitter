@@ -37,6 +37,7 @@ The architecture of the application follows a full serverless approach. Here's a
 - **AWS AppSync** (GraphQL API)
 - **AWS Lambda** (Serverless compute)
 - **Amazon DynamoDB** (NoSQL Database)
+- **Amazon Cognito** (Authentication Service)
 - **Vue.js** (Frontend framework)
 - **Amplify** (AWS Amplify for easier setup and deployment)
 
