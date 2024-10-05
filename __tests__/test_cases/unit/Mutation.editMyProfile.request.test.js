@@ -7,7 +7,7 @@ describe("Mutation.editMyProfile.request template", () => {
   it("Should use 'newProfile' fields in expression values.", () => {
     const templatePath = path.resolve(
       __dirname,
-      "../../../mapping-templates/Mutation.editMyProfile.request.vtl"
+      "../../../mapping-templates/Mutation.editProfile.request.vtl"
     );
 
     const username = chance.guid();
