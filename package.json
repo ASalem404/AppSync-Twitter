@@ -17,7 +17,9 @@
     "chance": "1.1.12",
     "serverless": "2.4.0",
     "serverless-appsync-plugin": "1.4.0",
-    "serverless-iam-roles-per-function": "2.0.2"
+    "serverless-iam-roles-per-function": "2.0.2",
+    "serverless-plugin-common-excludes": "^2.0.0",
+    "serverless-plugin-include-dependencies": "^4.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.13",
