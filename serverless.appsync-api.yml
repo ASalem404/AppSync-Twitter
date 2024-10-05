@@ -20,7 +20,7 @@ mappingTemplates:
     # response: Query.getMyProfile.response.vtl
 
   - type: Mutation
-    field: editMyProfile
+    field: editProfile
     dataSource: usersTable
 
     # request: Mutation.editMyProfile.request.vtl
