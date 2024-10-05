@@ -21,6 +21,8 @@ plugins:
   - serverless-iam-roles-per-function
   - serverless-export-env
   - serverless-manifest-plugin
+  - serverless-plugin-include-dependencies
+  - serverless-plugin-common-excludes
 
 custom:
   region: ${opt:region, self:provider.region}
