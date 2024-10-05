@@ -1,12 +1,10 @@
 require("dotenv").config();
 const AWS = require("aws-sdk");
-const velocityMapper = require("amplify-appsync-simulator/lib/velocity/value-mapper/mapper");
-const velocityTemplate = require("amplify-velocity-template");
-const fs = require("fs");
 
 const REGION = process.env.AWS_REGION;
 const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
 const COGNITO_CLIENT_ID = process.env.COGNITO_USER_POOL_CLIENT_ID;
+const APPSYNC_API_URL = process.env.APPSYNC_API_URL;
 
 const handler = require("../../functions/confirm-user-signup").handler;
 const invoke_confirmSignup = async (username, name, email) => {
@@ -66,19 +64,7 @@ const a_user_signs_up = async (password, name, email) => {
   };
 };
 
-const we_invoke_an_appsync_template = (templatePath, context) => {
-  const template = fs.readFileSync(templatePath, { encoding: "utf-8" });
-  const ast = velocityTemplate.parse(template);
-  const compiler = new velocityTemplate.Compile(ast, {
-    valueMapper: velocityMapper.map,
-    escape: false,
-  });
-
-  return compiler.render(context);
-};
-
 module.exports = {
   invoke_confirmSignup,
   a_user_signs_up,
-  we_invoke_an_appsync_template,
 };
