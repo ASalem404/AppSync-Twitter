@@ -3,6 +3,7 @@ const fs = require("fs");
 const velocityMapper = require("amplify-appsync-simulator/lib/velocity/value-mapper/mapper");
 const velocityTemplate = require("amplify-velocity-template");
 const AWS = require("aws-sdk");
+const { GraphQL } = require("../lib/graphql");
 
 const REGION = process.env.AWS_REGION;
 const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
@@ -74,12 +75,73 @@ const we_invoke_an_appsync_template = (templatePath, context) => {
     valueMapper: velocityMapper.map,
     escape: false,
   });
-  console.log(convertStringToJson(compiler.render(context)));
   return compiler.render(context);
+};
+const a_user_calls_getMyProfile = async (user) => {
+  const getMyProfile = `query getMyProfile {
+    getMyProfile {
+      ... myProfileFields
+
+      tweets {
+        nextToken
+        tweets {
+          ... iTweetFields
+        }
+      }
+    }
+  }`;
+
+  const data = await GraphQL(
+    process.env.APPSYNC_API_URL,
+    getMyProfile,
+    {},
+    user.accessToken
+  );
+  const profile = data.getMyProfile;
+
+  console.log(`[${user.username}] - fetched profile`);
+
+  return profile;
+};
+const a_user_calls_editMyProfile = async (user, input) => {
+  const editMyProfile = `mutation editProfile($input: ProfileInput!) {
+    editProfile(newProfile: $input) {
+    id
+    likesCount
+    bio
+    backgroundImageUrl
+    birthDate
+    createdAt
+    followersCount
+    imageUrl
+    location
+    name
+    screenName
+    tweetsCount
+    website
+    followingCount
+    }
+  }`;
+
+  const variables = { input };
+
+  const data = await GraphQL(
+    process.env.APPSYNC_API_URL,
+    editMyProfile,
+    variables,
+    user.accessToken
+  );
+  const profile = data.editProfile;
+
+  console.log(`[${user.username}] - update his profile`);
+
+  return profile;
 };
 
 module.exports = {
   invoke_confirmSignup,
   a_user_signs_up,
   we_invoke_an_appsync_template,
+  a_user_calls_getMyProfile,
+  a_user_calls_editMyProfile,
 };

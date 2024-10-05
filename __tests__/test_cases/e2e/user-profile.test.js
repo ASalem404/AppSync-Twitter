@@ -1,15 +1,16 @@
+const Chance = require("chance");
 const given = require("../../steps/given");
 const when = require("../../steps/when");
 
 describe("Test an Authanticated user interactions with his profile.", () => {
-  let user;
+  let user, profile;
 
   beforeAll(async () => {
     user = await given.an_authanticated_user();
   });
 
   it("Should return the user profile when fetch getMyProfile Query.", async () => {
-    const profile = await when.a_user_calls_getMyProfile(user);
+    profile = await when.a_user_calls_getMyProfile(user);
 
     expect(profile).toMatchObject({
       id: user.username,
@@ -32,5 +33,15 @@ describe("Test an Authanticated user interactions with his profile.", () => {
     const [firstName, lastName] = profile.name.split(" ");
     expect(profile.screenName).toContain(firstName);
     expect(profile.screenName).toContain(lastName);
+  });
+
+  it("Should return the new profile when call editMyProfile Query.", async () => {
+    const newName = Chance().first();
+    const input = {
+      name: newName,
+    };
+    const newProfile = await when.a_user_calls_editMyProfile(user, input);
+
+    expect(newProfile).toMatchObject({ ...profile, name: newName });
   });
 });
