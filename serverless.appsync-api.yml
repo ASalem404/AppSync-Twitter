@@ -40,4 +40,4 @@ dataSources:
   - type: AWS_LAMBDA
     name: getImageUploadUrlFunction
     config:
-      functionName: !Ref getImageUploadUrl
+      functionName: getImageUploadUrl
