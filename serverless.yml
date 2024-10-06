@@ -143,3 +143,5 @@ resources:
       Value: !Ref CognitoUserPool
     CognitoUserPoolClientId:
       Value: !Ref WebUserPoolClient
+    AssetsBucketName:
+      Value: !Ref AssetsBucket
