@@ -10,8 +10,29 @@ const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
 const COGNITO_CLIENT_ID = process.env.COGNITO_USER_POOL_CLIENT_ID;
 const APPSYNC_API_URL = process.env.APPSYNC_API_URL;
 
-const handler = require("../../functions/confirm-user-signup").handler;
+const when_we_invoke_getImgeUploadUrl = async (
+  username,
+  extension,
+  contentType
+) => {
+  const handler = require("../../functions/get-upload-url").handler;
+
+  const context = {};
+  const event = {
+    identity: {
+      username,
+    },
+    arguments: {
+      extension,
+      contentType,
+    },
+  };
+
+  return await handler(event, context);
+};
+
 const invoke_confirmSignup = async (username, name, email) => {
+  const handler = require("../../functions/confirm-user-signup").handler;
   const context = {};
   const event = {
     version: "1",
@@ -141,6 +162,7 @@ const a_user_calls_editMyProfile = async (user, input) => {
 module.exports = {
   invoke_confirmSignup,
   a_user_signs_up,
+  when_we_invoke_getImgeUploadUrl,
   we_invoke_an_appsync_template,
   a_user_calls_getMyProfile,
   a_user_calls_editMyProfile,
