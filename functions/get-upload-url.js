@@ -11,13 +11,15 @@ module.exports.handler = async (event) => {
   const extension = event.arguments.extension;
 
   if (extension) {
-    key = extension.startWith(".")
+    key = extension.startsWith(".")
       ? (key += extension)
       : (key += `.${extension}`);
   }
 
   const contentType = event.arguments.contentType || "image/jpeg";
-  if (!contentType.startWith("/image"))
+
+  console.log(event.arguments.contentType);
+  if (!contentType.startsWith("image"))
     throw new Error("Content Type should be an image.");
 
   const params = {
