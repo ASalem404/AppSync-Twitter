@@ -147,7 +147,7 @@ const a_user_calls_editMyProfile = async (user, input) => {
   const variables = { input };
 
   const data = await GraphQL(
-    process.env.APPSYNC_API_URL,
+    APPSYNC_API_URL,
     editMyProfile,
     variables,
     user.accessToken
@@ -159,6 +159,25 @@ const a_user_calls_editMyProfile = async (user, input) => {
   return profile;
 };
 
+const a_user_calls_getAnUploadUrl = async (user, extension, contentType) => {
+  const getImageUploadUrl = `query getImageUploadUrl($extension: String, $contentType: String) {
+    getImageUploadUrl(extension: $extension, contentType: $contentType) `;
+
+  const variables = { extension, contentType };
+
+  const data = await GraphQL(
+    APPSYNC_API_URL,
+    getImageUploadUrl,
+    variables,
+    user.accessToken
+  );
+  const url = data.getImageUploadUrl;
+
+  console.log(`[${user.username}] - got an image upload url!`);
+
+  return url;
+};
+
 module.exports = {
   invoke_confirmSignup,
   a_user_signs_up,
@@ -166,4 +185,5 @@ module.exports = {
   we_invoke_an_appsync_template,
   a_user_calls_getMyProfile,
   a_user_calls_editMyProfile,
+  a_user_calls_getAnUploadUrl,
 };

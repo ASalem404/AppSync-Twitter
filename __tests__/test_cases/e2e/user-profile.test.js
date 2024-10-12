@@ -1,6 +1,11 @@
+require("dotenv").config();
+const path = require("path");
 const Chance = require("chance");
 const given = require("../../steps/given");
 const when = require("../../steps/when");
+const then = require("../../steps/then");
+
+const { BUCKET_NAME } = process.env;
 
 describe("Test an Authanticated user interactions with his profile.", () => {
   let user, profile;
@@ -33,6 +38,32 @@ describe("Test an Authanticated user interactions with his profile.", () => {
     const [firstName, lastName] = profile.name.split(" ");
     expect(profile.screenName).toContain(firstName);
     expect(profile.screenName).toContain(lastName);
+  });
+
+  it("Should get an upload url to upload his profile image", async () => {
+    const extension = ".png",
+      contentType = "image/png";
+    const uploadUrl = await when.a_user_calls_getAnUploadUrl(
+      user,
+      extension,
+      contentType
+    );
+
+    const regex = new RegExp(
+      `https://${BUCKET_NAME}.s3-accelerate.amazonaws.com/${user.username}/.*${
+        extension || ""
+      }\?.*Content-Type=${
+        contentType ? contentType.replace("/", "%2F") : "image%2Fjpeg"
+      }.*`
+    );
+
+    expect(uploadUrl).toMatch(regex);
+
+    const filePath = path.join(__dirname, "../../data/image.png");
+    await then.user_can_upload_image_to_url(uploadUrl, filePath, "image/png");
+
+    const downloadUrl = uploadUrl.split("?")[0];
+    await then.user_can_download_image_from(downloadUrl);
   });
 
   it("Should return the new profile when call editMyProfile Query.", async () => {
