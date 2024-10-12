@@ -46,6 +46,7 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: !GetAtt UsersTable.Arn
+
   getImageUploadUrl:
     handler: functions/get-upload-url.handler
     environment:
@@ -56,6 +57,24 @@ functions:
           - s3:PutObject
           - s3:putObjectAcl
         Resource: !Sub ${AssetsBucket.Arn}/*
+
+  tweet:
+    handler: functions/tweet.handler
+    environment:
+      TWEETS_TABLE: !Ref TweetsTable
+      TIMELINES_TABLE: !Ref TimelinesTable
+      USERS_TABLE: !Ref UsersTable
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource:
+          - !GetAtt TweetsTable.Arn
+          - !GetAtt TimelinesTable.Arn
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: !GetAtt UsersTable.Arn
 
 resources:
   Resources:
@@ -73,6 +92,54 @@ resources:
         Tags:
           - Key: Name
             Value: UsersTable
+          - Key: Environment
+            Value: ${self:custom.stage}
+
+    TweetsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TweetsTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: creator
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
+        GlobalSecondaryIndexes:
+          - IndexName: byCreator
+            KeySchema:
+              - AttributeName: creator
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+        Tags:
+          - Key: Name
+            Value: Tweets-Table
+          - Key: Environment
+            Value: ${self:custom.stage}
+
+    TimelinesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: TimelinesTable
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: tweetId
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: tweetId
+            KeyType: RANGE
+        Tags:
+          - Key: Name
+            Value: Timelines-Table
           - Key: Environment
             Value: ${self:custom.stage}
 
