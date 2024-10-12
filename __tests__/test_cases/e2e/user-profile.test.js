@@ -50,11 +50,7 @@ describe("Test an Authanticated user interactions with his profile.", () => {
     );
 
     const regex = new RegExp(
-      `https://${BUCKET_NAME}.s3-accelerate.amazonaws.com/${user.username}/.*${
-        extension || ""
-      }\?.*Content-Type=${
-        contentType ? contentType.replace("/", "%2F") : "image%2Fjpeg"
-      }.*`
+      `https://${BUCKET_NAME}.s3-accelerate.amazonaws.com/${user.username}/.*\.png\?.*Content-Type=image%2Fpng.*`
     );
 
     expect(uploadUrl).toMatch(regex);
