@@ -6,7 +6,7 @@ frameworkVersion: "2"
 provider:
   name: aws
   region: us-east-1
-  runtime: nodejs20.x
+  runtime: nodejs14.x
   stage: dev
 
   # Enabling AWS Node.js connection reuse improves performance by reducing latency and resource consumption,
