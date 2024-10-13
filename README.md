@@ -56,50 +56,6 @@ git clone https://github.com/ASalem404/AppSync-Twitter.git
 cd  AppSync-Twitter
 ```
 
-### Install Frontend Dependencies
-
-```bash
-cd frontend
-npm install
-```
-
-### Install Backend Dependencies
-
-```bash
-cd backend
-npm install
-```
-
-### Setup AWS Amplify
-
-```bash
-amplify init
-amplify add api
-amplify push
-```
-
-## Project Structure
-
-- **/frontend**: Contains the Vue.js frontend code.
-- **/backend**: Contains the AWS Lambda functions and AppSync configuration.
-
-## Deploying the Application
-
-1. Set up your Amplify environment with the `amplify init` command.
-2. Add the required AWS services (API, Auth, etc.) using `amplify add`.
-3. Deploy the entire stack using `amplify push`.
-
-## Testing
-
-You can test the application by running the frontend locally:
-
-```bash
-cd frontend
-npm run serve
-```
-
-Visit `http://localhost:8080` to view the app.
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue for discussion.
